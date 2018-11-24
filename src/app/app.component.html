@@ -1,20 +1,98 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div class="container">
+  <div class="movielist">
+      <table class="table">
+          <thead>
+            <tr>
+              <th>
+                <div class="col-sm-2 "></div>
+                <div class="col-sm-4 "> My favorite Movies</div>
+                <div class="col-sm-3 "></div>
+                <div class="col-sm-3 ">Rating</div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let movie of movies; let i = index">
+              <td>
+                <form #theForm="ngForm">
+                    <div class="col-sm-12 column">
+                        <div class="col-sm-2 "scope="row"><a (click)="remove(i)"  class="btn" >(remove)</a></div>
+                        <div class="col-sm-4 ">
+            
+                          <input class="form-control" type="text" [(ngModel)]="movie.Title" name="Title" (input)="updateTitle(movie, i)">
+                        </div>
+                        <div class="col-sm-3 ">
+                         
+                            <select [(ngModel)]="movie.Genre" name="Genre" class="select-control">
+                                <option value="">-- select --</option>
+                                <option *ngFor="let genre of genreList" value={{genre}}>{{genre}}</option>
+                              </select>
+                        </div>
+                        <div class="col-sm-3 rating">
+                            <a (click)="updateRating('1',i)">
+                              <span class="glyphicon" [class.glyphicon-star-empty]="movie?.Rating > 0 " [class.glyphicon-star]="movie?.Rating < 1 "></span>
+                            </a>
+                            <a (click)="updateRating('2',i)">
+                            <span class="glyphicon" [class.glyphicon-star-empty]="movie?.Rating > 1 " [class.glyphicon-star]="movie?.Rating < 2 "></span>
+                            </a>
+                            <a (click)="updateRating('3',i)">
+                            <span class="glyphicon" [class.glyphicon-star-empty]="movie?.Rating > 2 " [class.glyphicon-star]="movie?.Rating < 3 "></span>
+                            </a>
+                            <a (click)="updateRating('4',i)">
+                            <span class="glyphicon" [class.glyphicon-star-empty]="movie?.Rating > 3 " [class.glyphicon-star]="movie?.Rating < 4 "></span>
+                            </a>
+                            <a (click)="updateRating('5',i)">
+                            <span class="glyphicon" [class.glyphicon-star-empty]="movie?.Rating > 4 " [class.glyphicon-star]="movie?.Rating < 5 "></span>
+                            </a>
+                        </div>
+                    </div>
+                  </form>
+            </td>
+            </tr>
+            <tr>
+                <th>
+                  <div class="col-sm-2 ">&nbsp;</div>
+                  <div class="col-sm-4 ">New Movie</div>
+                  <div class="col-sm-3 ">&nbsp;</div>
+                  <div class="col-sm-3 ">&nbsp;</div>
+                </th>
+              </tr>
+              <tr>
+                <td>                    
+                  <form  #theForm="ngForm">
+                    <div class="col-sm-12 column">
+                        <div class="col-sm-2 ">&nbsp;</div>
+                        <div class="col-sm-4 ">
+                          <input class="form-control" type="text" [(ngModel)]="movieForm.Title" name="Title" required>
+                        </div>
+                        <div class="col-sm-3 ">
+                            <select [(ngModel)]="movieForm.Genre" name="Genre" class="select-control" required>
+                              <option value="">-- select --</option>
+                              <option *ngFor="let genre of genreList" value={{genre}}>{{genre}}</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3 ">&nbsp;</div>
+                    </div>
+
+                    <div class="col-sm-12 column">
+                        <div class="col-sm-2">&nbsp;</div>
+                        <div class="col-sm-4">
+                        <span class="disabledlink" *ngIf="!theForm.valid">Save</span><a (click)="onSave()" class="btn" *ngIf="theForm.valid">Save</a><a (click)="onCancel()"  class="btn" >Cancel</a>
+                    </div>
+                    <div class="col-sm-3">&nbsp;</div>
+                    <div class="col-sm-3">&nbsp;</div>
+                  </div>
+                  </form>
+                  </td>
+                </tr>
+        </tbody>
+      </table>
+  </div>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+
+
+
+
+
+
 
